@@ -1,0 +1,223 @@
+Summary: A set of documentation tools:  man, apropos and whatis
+Name: man
+Version: 1.5m2
+Release: %mkrel 7
+License: GPL
+Group: System/Base
+Url:	 ftp://ftp.win.tue.nl:/pub/linux-local/utils/man
+Source0: ftp://ftp.win.tue.nl/pub/linux-local/utils/man/man-%version.tar.bz2
+Source1: makewhatis.cronweekly
+Source2: makewhatis.crondaily
+Source3: man.config.5
+Patch1: man-1.5k-confpath.patch
+Patch4: man-1.5h1-make.patch
+Patch5: man-1.5k-nonascii.patch
+Patch6: man-1.5m2-security.patch
+Patch7: man-1.5k-mandirs.patch
+Patch8: man-1.5m2-bug11621.patch
+Patch9: man-1.5k-sofix.patch
+Patch10: man-1.5m2-buildroot.patch
+Patch12: man-1.5m2-ro-usr.patch
+Patch14: man-1.5i2-newline.patch
+Patch15: man-1.5k-lookon.patch
+Patch17: man-1.5j-utf8.patch
+Patch19: man-1.5i2-overflow.patch
+Patch22: man-1.5j-nocache.patch
+Patch24: man-1.5i2-initial.patch
+Patch25: man-1.5m2-use-i18n-vars-in-a-std-way.patch
+Patch26: man-1.5m2-no-color-for-printing.patch
+# ignore SIGPIPE signals, so no error messages are displayed
+# when the pipe is broken before the formatting of the man page
+# (which may take some time) is finished.
+# the typical case is "man foo | head -1"
+Patch27: man-1.5m2-sigpipe.patch
+
+# Japanese patches
+Patch51: man-1.5h1-gencat.patch
+Patch102: man-1.5g-nonrootbuild.patch
+Patch104: man-1.5m2-tv_fhs.patch
+Patch105: man-1.5j-i18n.patch
+Patch107: man-1.5j-whatis2.patch
+
+# avoid adding a manpage already in the list
+Patch200: man-1.5m2-multiple.patch
+# i18n fixes for whatis and makewhatis
+Patch201: man-1.5m2-i18n-whatis.patch
+Patch300: man-1.5m2-new-sections.patch
+
+
+Buildroot: %_tmppath/%{name}-root/
+Requires: groff-for-man
+Prereq:	setup
+
+%description
+The man package includes three tools for finding information and/or
+documentation about your Linux system: man, apropos and whatis. The man
+system formats and displays on-line manual pages about commands or
+functions on your system. Apropos searches the whatis database
+(containing short descriptions of system commands) for a string. Whatis
+searches its own database for a complete word.
+
+The man package should be installed on your system because it is the
+primary way for find documentation on a Mandriva Linux system.
+
+
+%prep
+%setup -q
+%patch1 -p0 -b .confpath
+%patch4 -p1 -b .make
+%patch5 -p1 -b .nonascii
+%patch6 -p1 -b .security
+%patch7 -p1 -b .mandirs
+%patch8 -p1 -b .ad
+%patch9 -p1 -b .sofix
+%patch10 -p1 -b .less
+%patch12 -p1 -b .usr
+%patch14 -p1 -b .newline
+%patch15 -p1 -b .lookon
+%patch51 -p1 -b .jp2
+%patch17 -p1 -b .utf8
+%patch19 -p1 -b .overflow
+%patch22 -p1 -b .nocache
+%patch24 -p1 -b .initial
+%patch25 -p1 -b .i18n
+%patch26 -p1 -b .color
+%patch27 -p1 -b .sigpipe
+
+%patch102 -p1
+%patch104 -p1 -b .tv_fhs
+%patch105 -p1 -b .i18n
+%patch107 -p0
+%patch200 -p1 -b .multiple
+%patch201 -p0 -b .i18n
+
+%patch300 -p1 -b .sect
+
+/bin/rm -f man/en/man.conf.man
+
+# fixing the encodings to utf-8
+for i in msgs/mess.* man/*/*.man
+do
+	if iconv -f utf-8 -t utf-8 -o /dev/null $i 2> /dev/null ; then continue ; fi
+    lang=`echo $i | cut -d'/' -f2 | sed 's/mess.//'`
+    case $lang in
+    	bg) encoding=cp1251 ;;
+    	cs|hu|hr|pl|ro|sk|sl) encoding=iso-8859-2 ;;
+    	eo) encoding=iso-8859-3 ;;
+    	el) encoding=iso-8859-7 ;;
+    	ja) encoding=euc-jp ;;
+    	ko) encoding=euc-kr ;;
+    	ru) encoding=koi8-r ;;
+    	uk) encoding=koi8-u ;;
+    	*) encoding=iso-8859-1 ;;
+    esac
+    iconv -f $encoding -t utf-8 -o tmpfile $i && mv tmpfile $i
+done
+
+%build
+(cd man; for i in `find -name man.conf.man`; do mv $i `echo $i|sed -e 's/conf.man/config.man/g'`;done)
+install -m 644 %SOURCE3 man/en/
+./configure -default -confdir /etc +sgid +fhs +lang all 
+#	-compatibility_mode_for_colored_groff
+make CC="gcc -g $RPM_OPT_FLAGS -D_GNU_SOURCE"
+# it seems for some reason make rpm is building with LC_ALL=C
+# which breaks gencat (as the input is utf-8); forcing a clean rebuild
+(cd msgs/ ; rm -f *.cat ; LC_ALL=en_US.UTF-8 make)
+
+%install
+/bin/rm -rf $RPM_BUILD_ROOT
+mkdir -p  $RPM_BUILD_ROOT/usr/{bin,man,sbin}
+mkdir -p  $RPM_BUILD_ROOT/etc/cron.{daily,weekly}
+perl -pi -e 's!/usr/man!/usr/share/man!g' conf_script
+perl -pi -e 's!mandir = .*$!mandir ='"%{_mandir}"'!g' man2html/Makefile
+make install PREFIX=$RPM_BUILD_ROOT/  mandir=$RPM_BUILD_ROOT/%{_mandir}
+
+install -m755 %SOURCE1 $RPM_BUILD_ROOT/etc/cron.weekly/makewhatis.cron
+install -m755 %SOURCE2 $RPM_BUILD_ROOT/etc/cron.daily/makewhatis.cron
+
+for i in 1 2 3 4 5 6 7 8 9 n; do
+	mkdir -p $RPM_BUILD_ROOT/var/cache/man/cat$i
+	mkdir -p $RPM_BUILD_ROOT/var/cache/man/local/cat$i
+	mkdir -p $RPM_BUILD_ROOT/var/cache/man/X11R6/cat$i
+done
+
+
+## added man2html stuff
+#pushd man2html
+#make install PREFIX=$RPM_BUILD_ROOT/
+#popd
+
+# symlinks for manpath
+pushd $RPM_BUILD_ROOT
+  ln -s man .%{_bindir}/manpath
+  ln -s man.1.bz2 .%{_mandir}/man1/manpath.1.bz2
+popd
+
+# those are provided in the man-pages-xx packages
+/bin/rm -fr $RPM_BUILD_ROOT/%{_mandir}/{de,fr,it,pl}
+
+# Fix makewhatis perms
+chmod 755 $RPM_BUILD_ROOT/usr/sbin/makewhatis
+
+%clean
+/bin/rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root)
+/etc/cron.weekly/makewhatis.cron
+/etc/cron.daily/makewhatis.cron
+%attr(2755,root,man)	%_bindir/man
+%_bindir/manpath
+%_bindir/apropos
+%_bindir/whatis
+%_bindir/man2dvi
+%_sbindir/makewhatis
+%config(noreplace) /etc/man.config
+%_mandir/man8/*
+%_mandir/man5/*
+%_mandir/man1/*
+# translated man pages
+%lang(bg) %_mandir/bg/man?/*
+%lang(cs) %_mandir/cs/man?/*
+%lang(da) %_mandir/da/man?/*
+%lang(el) %_mandir/el/man?/*
+%lang(es) %_mandir/es/man?/*
+%lang(fi) %_mandir/fi/man?/*
+%lang(hr) %_mandir/hr/man?/*
+%lang(ja) %_mandir/ja/man?/*
+%lang(ko) %_mandir/ko/man?/*
+%lang(nl) %_mandir/nl/man?/*
+%lang(pt) %_mandir/pt/man?/*
+%lang(ro) %_mandir/ro/man?/*
+%lang(sl) %_mandir/sl/man?/*
+%_bindir/man2html
+
+%attr(0775,root,man)	%dir /var/cache/man/cat[123456789n]
+%attr(0775,root,man)	%dir /var/cache/man/local
+%attr(0775,root,man)	%dir /var/cache/man/local/cat[123456789n]
+%attr(0775,root,man)	%dir /var/cache/man/X11R6
+%attr(0775,root,man)	%dir /var/cache/man/X11R6/cat[123456789n]
+
+# translation of man program. It doesn't use gettext format, so
+# find_lang doesn't find them... manual setting is needed
+%lang(bg) %_datadir/locale/bg/man
+%lang(cs) %_datadir/locale/cs/man
+%lang(da) %_datadir/locale/da/man
+%lang(de) %_datadir/locale/de/man
+%lang(el) %_datadir/locale/el/man
+%lang(en) %_datadir/locale/en/man
+%lang(es) %_datadir/locale/es/man
+%lang(fi) %_datadir/locale/fi/man
+%lang(fr) %_datadir/locale/fr/man
+%lang(hr) %_datadir/locale/hr/man
+%lang(it) %_datadir/locale/it/man
+%lang(ja) %_datadir/locale/ja/man
+%lang(ko) %_datadir/locale/ko/man
+%lang(nl) %_datadir/locale/nl/man
+%lang(pl) %_datadir/locale/pl/man
+%lang(pt) %_datadir/locale/pt/man
+%lang(ro) %_datadir/locale/ro/man
+%lang(ru) %_datadir/locale/ru/man
+%lang(sl) %_datadir/locale/sl/man
+
+
