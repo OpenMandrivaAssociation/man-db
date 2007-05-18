@@ -1,30 +1,28 @@
-Summary: A set of documentation tools:  man, apropos and whatis
+Summary: A set of documentation tools: man, apropos and whatis
 Name: man
-Version: 1.5m2
-Release: %mkrel 7
+Version: 1.6e
+Release: %mkrel 1
 License: GPL
 Group: System/Base
-Url:	 ftp://ftp.win.tue.nl:/pub/linux-local/utils/man
-Source0: ftp://ftp.win.tue.nl/pub/linux-local/utils/man/man-%version.tar.bz2
+Url: http://primates.ximian.com/~flucifredi/man/
+Source0: http://primates.ximian.com/~flucifredi/man/man-%version.tar.gz
 Source1: makewhatis.cronweekly
 Source2: makewhatis.crondaily
-Source3: man.config.5
 Patch1: man-1.5k-confpath.patch
 Patch4: man-1.5h1-make.patch
 Patch5: man-1.5k-nonascii.patch
-Patch6: man-1.5m2-security.patch
-Patch7: man-1.5k-mandirs.patch
+Patch6: man-1.6e-security.patch
+Patch7: man-1.6e-mandirs.patch
 Patch8: man-1.5m2-bug11621.patch
 Patch9: man-1.5k-sofix.patch
 Patch10: man-1.5m2-buildroot.patch
-Patch12: man-1.5m2-ro-usr.patch
+Patch12: man-1.6e-ro_usr.patch
 Patch14: man-1.5i2-newline.patch
-Patch15: man-1.5k-lookon.patch
 Patch17: man-1.5j-utf8.patch
 Patch19: man-1.5i2-overflow.patch
 Patch22: man-1.5j-nocache.patch
 Patch24: man-1.5i2-initial.patch
-Patch25: man-1.5m2-use-i18n-vars-in-a-std-way.patch
+Patch25: man-1.6e-use_i18n_vars_in_a_std_way.patch
 Patch26: man-1.5m2-no-color-for-printing.patch
 # ignore SIGPIPE signals, so no error messages are displayed
 # when the pipe is broken before the formatting of the man page
@@ -37,13 +35,13 @@ Patch51: man-1.5h1-gencat.patch
 Patch102: man-1.5g-nonrootbuild.patch
 Patch104: man-1.5m2-tv_fhs.patch
 Patch105: man-1.5j-i18n.patch
-Patch107: man-1.5j-whatis2.patch
+Patch107: man-1.6e-whatis2.patch
 
 # avoid adding a manpage already in the list
 Patch200: man-1.5m2-multiple.patch
 # i18n fixes for whatis and makewhatis
-Patch201: man-1.5m2-i18n-whatis.patch
-Patch300: man-1.5m2-new-sections.patch
+Patch201: man-1.6e-i18n_whatis.patch
+Patch300: man-1.6e-new_sections.patch
 
 
 Buildroot: %_tmppath/%{name}-root/
@@ -72,28 +70,25 @@ primary way for find documentation on a Mandriva Linux system.
 %patch8 -p1 -b .ad
 %patch9 -p1 -b .sofix
 %patch10 -p1 -b .less
-%patch12 -p1 -b .usr
+%patch12 -p1 -b .ro_usr
 %patch14 -p1 -b .newline
-%patch15 -p1 -b .lookon
 %patch51 -p1 -b .jp2
 %patch17 -p1 -b .utf8
 %patch19 -p1 -b .overflow
 %patch22 -p1 -b .nocache
 %patch24 -p1 -b .initial
-%patch25 -p1 -b .i18n
+%patch25 -p1 -b .use_i18n_vars_in_a_std_way
 %patch26 -p1 -b .color
 %patch27 -p1 -b .sigpipe
 
 %patch102 -p1
 %patch104 -p1 -b .tv_fhs
 %patch105 -p1 -b .i18n
-%patch107 -p0
+%patch107 -p1 -b .whatis2
 %patch200 -p1 -b .multiple
-%patch201 -p0 -b .i18n
+%patch201 -p1 -b .i18n_whatis
 
-%patch300 -p1 -b .sect
-
-/bin/rm -f man/en/man.conf.man
+%patch300 -p1 -b .new_sections
 
 # fixing the encodings to utf-8
 for i in msgs/mess.* man/*/*.man
@@ -114,12 +109,19 @@ do
     iconv -f $encoding -t utf-8 -o tmpfile $i && mv tmpfile $i
 done
 
+cd man;
+    for i in `find -name man.conf.man`; do
+        sed -e 's/MAN\.CONF/MAN\.CONFIG/g' \
+            -e 's/man\.conf/man\.config/g' \
+            -i $i
+        mv $i `echo $i|sed -e 's/conf.man/config.man/g'`
+    done
+cd ..
+
 %build
-(cd man; for i in `find -name man.conf.man`; do mv $i `echo $i|sed -e 's/conf.man/config.man/g'`;done)
-install -m 644 %SOURCE3 man/en/
 ./configure -default -confdir /etc +sgid +fhs +lang all 
 #	-compatibility_mode_for_colored_groff
-make CC="gcc -g $RPM_OPT_FLAGS -D_GNU_SOURCE"
+make CC="gcc -g $RPM_OPT_FLAGS -D_GNU_SOURCE" MANDIR=%{_mandir}
 # it seems for some reason make rpm is building with LC_ALL=C
 # which breaks gencat (as the input is utf-8); forcing a clean rebuild
 (cd msgs/ ; rm -f *.cat ; LC_ALL=en_US.UTF-8 make)
@@ -128,9 +130,8 @@ make CC="gcc -g $RPM_OPT_FLAGS -D_GNU_SOURCE"
 /bin/rm -rf $RPM_BUILD_ROOT
 mkdir -p  $RPM_BUILD_ROOT/usr/{bin,man,sbin}
 mkdir -p  $RPM_BUILD_ROOT/etc/cron.{daily,weekly}
-perl -pi -e 's!/usr/man!/usr/share/man!g' conf_script
 perl -pi -e 's!mandir = .*$!mandir ='"%{_mandir}"'!g' man2html/Makefile
-make install PREFIX=$RPM_BUILD_ROOT/  mandir=$RPM_BUILD_ROOT/%{_mandir}
+make install PREFIX=$RPM_BUILD_ROOT/ mandir=$RPM_BUILD_ROOT/%{_mandir}
 
 install -m755 %SOURCE1 $RPM_BUILD_ROOT/etc/cron.weekly/makewhatis.cron
 install -m755 %SOURCE2 $RPM_BUILD_ROOT/etc/cron.daily/makewhatis.cron
@@ -140,12 +141,6 @@ for i in 1 2 3 4 5 6 7 8 9 n; do
 	mkdir -p $RPM_BUILD_ROOT/var/cache/man/local/cat$i
 	mkdir -p $RPM_BUILD_ROOT/var/cache/man/X11R6/cat$i
 done
-
-
-## added man2html stuff
-#pushd man2html
-#make install PREFIX=$RPM_BUILD_ROOT/
-#popd
 
 # symlinks for manpath
 pushd $RPM_BUILD_ROOT
