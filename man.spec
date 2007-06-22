@@ -1,7 +1,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man
 Version:	1.6e
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL
 Group:		System/Base
 Url:		http://primates.ximian.com/~flucifredi/man/
@@ -48,6 +48,7 @@ Patch500:	man-1.6e-lzma-support.patch
 
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	groff-for-man
+BuildRequires:	lzma
 
 %description
 The man package includes three tools for finding information and/or
