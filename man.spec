@@ -1,7 +1,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man
 Version:	1.6e
-Release:	%mkrel 4
+Release:	%mkrel 5
 License:	GPL
 Group:		System/Base
 Url:		http://primates.ximian.com/~flucifredi/man/
@@ -91,7 +91,7 @@ primary way for find documentation on a Mandriva Linux system.
 
 %patch300 -p1 -b .new_sections
 
-%patch500 -p1 -b .lzma
+%patch500 -p1 -b .lzma_support
 
 # fixing the encodings to utf-8
 for i in msgs/mess.* man/*/*.man
