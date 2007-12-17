@@ -46,7 +46,6 @@ Patch300:	man-1.6e-new_sections.patch
 #(peroyvind)
 Patch500:	man-1.6e-lzma-support.patch
 
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	groff-for-man
 BuildRequires:	lzma
 
