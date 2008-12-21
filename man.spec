@@ -1,7 +1,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man
 Version:	1.6e
-Release:	%mkrel 8
+Release:	%mkrel 9
 License:	GPL
 Group:		System/Base
 Url:		http://primates.ximian.com/~flucifredi/man/
@@ -72,8 +72,8 @@ primary way for find documentation on a Mandriva Linux system.
 %patch9 -p1 -b .sofix
 %patch10 -p1 -b .less
 %patch12 -p1 -b .ro_usr
-%patch14 -p1 -b .newline
-%patch51 -p1 -b .jp2
+%patch14 -p0 -b .newline
+%patch51 -p0 -b .jp2
 %patch17 -p1 -b .utf8
 %patch19 -p1 -b .overflow
 %patch22 -p1 -b .nocache
@@ -83,7 +83,7 @@ primary way for find documentation on a Mandriva Linux system.
 %patch27 -p1 -b .sigpipe
 
 %patch102 -p1
-%patch104 -p1 -b .tv_fhs
+%patch104 -p0 -b .tv_fhs
 %patch105 -p1 -b .i18n
 %patch107 -p1 -b .whatis2
 %patch200 -p1 -b .multiple
@@ -124,7 +124,7 @@ cd ..
 %build
 ./configure -default -confdir %{_sysconfdir} +sgid +fhs +lang all 
 #	-compatibility_mode_for_colored_groff
-make CC="gcc -g %{optflags} -D_GNU_SOURCE" MANDIR=%{_mandir}
+make CC="gcc -g %{optflags} -D_GNU_SOURCE" MANDIR=%{_mandir} LDFLAGS="%{ldflags}"
 # it seems for some reason make rpm is building with LC_ALL=C
 # which breaks gencat (as the input is utf-8); forcing a clean rebuild
 (cd msgs/ ; rm -f *.cat ; LC_ALL=en_US.UTF-8 make)
