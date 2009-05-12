@@ -44,11 +44,11 @@ Patch201:	man-1.6e-i18n_whatis.patch
 Patch300:	man-1.6e-new_sections.patch
 
 #(peroyvind)
-Patch500:	man-1.6e-lzma-support.patch
+Patch500:	man-1.6e-lzma+xz-support.patch
 
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	groff-for-man
-BuildRequires:	lzma
+BuildRequires:	xz
 
 %description
 The man package includes three tools for finding information and/or
