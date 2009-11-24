@@ -1,7 +1,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man
 Version:	1.6e
-Release:	%mkrel 10
+Release:	%mkrel 11
 License:	GPL
 Group:		System/Base
 Url:		http://primates.ximian.com/~flucifredi/man/
