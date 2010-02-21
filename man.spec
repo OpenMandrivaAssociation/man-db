@@ -1,8 +1,8 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man
-Version:	1.6e
-Release:	%mkrel 12
-License:	GPL
+Version:	1.6f
+Release:	%mkrel 1
+License:	GPLv2
 Group:		System/Base
 Url:		http://primates.ximian.com/~flucifredi/man/
 Source0:	http://primates.ximian.com/~flucifredi/man/%{name}-%{version}.tar.gz
@@ -16,12 +16,10 @@ Patch7:		man-1.6e-mandirs.patch
 Patch8:		man-1.5m2-bug11621.patch
 Patch9:		man-1.5k-sofix.patch
 Patch10:	man-1.5m2-buildroot.patch
-Patch12:	man-1.6e-ro_usr.patch
 Patch14:	man-1.5i2-newline.patch
 Patch17:	man-1.5j-utf8.patch
 Patch19:	man-1.5i2-overflow.patch
 Patch22:	man-1.5j-nocache.patch
-Patch24:	man-1.5i2-initial.patch
 Patch25:	man-1.6e-use_i18n_vars_in_a_std_way.patch
 Patch26:	man-1.5m2-no-color-for-printing.patch
 # ignore SIGPIPE signals, so no error messages are displayed
@@ -35,16 +33,11 @@ Patch51:	man-1.5h1-gencat.patch
 Patch102:	man-1.5g-nonrootbuild.patch
 Patch104:	man-1.5m2-tv_fhs.patch
 Patch105:	man-1.5j-i18n.patch
-Patch107:	man-1.6e-whatis2.patch
 
 # avoid adding a manpage already in the list
 Patch200:	man-1.5m2-multiple.patch
 # i18n fixes for whatis and makewhatis
-Patch201:	man-1.6e-i18n_whatis.patch
 Patch300:	man-1.6e-new_sections.patch
-
-#(peroyvind)
-Patch500:	man-1.6e-lzma+xz-support.patch
 
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	groff-for-man
@@ -71,27 +64,19 @@ primary way for find documentation on a Mandriva Linux system.
 %patch8 -p1 -b .ad
 %patch9 -p1 -b .sofix
 %patch10 -p1 -b .less
-%patch12 -p1 -b .ro_usr
 %patch14 -p0 -b .newline
 %patch51 -p0 -b .jp2
 %patch17 -p1 -b .utf8
 %patch19 -p1 -b .overflow
 %patch22 -p1 -b .nocache
-%patch24 -p1 -b .initial
 %patch25 -p1 -b .use_i18n_vars_in_a_std_way
 %patch26 -p1 -b .color
 %patch27 -p1 -b .sigpipe
-
 %patch102 -p1
 %patch104 -p0 -b .tv_fhs
 %patch105 -p1 -b .i18n
-%patch107 -p1 -b .whatis2
 %patch200 -p1 -b .multiple
-%patch201 -p1 -b .i18n_whatis
-
 %patch300 -p1 -b .new_sections
-
-%patch500 -p1 -b .lzma_support
 
 # fixing the encodings to utf-8
 for i in msgs/mess.* man/*/*.man
