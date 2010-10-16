@@ -59,28 +59,28 @@ primary way for find documentation on a Mandriva Linux system.
 
 %prep
 %setup -q
-%patch1 -p0 -b .confpath
-%patch4 -p1 -b .make
-%patch5 -p1 -b .nonascii
-%patch6 -p1 -b .security
-%patch7 -p1 -b .mandirs
-%patch8 -p1 -b .ad
-%patch9 -p1 -b .sofix
-%patch10 -p1 -b .less
-%patch14 -p0 -b .newline
-%patch51 -p0 -b .jp2
-%patch17 -p1 -b .utf8
-%patch19 -p1 -b .overflow
-%patch22 -p1 -b .nocache
-%patch25 -p1 -b .use_i18n_vars_in_a_std_way
-%patch26 -p1 -b .color
-%patch27 -p1 -b .sigpipe
-%patch28 -p1 -b .xz
-%patch102 -p1
-%patch104 -p0 -b .tv_fhs
-%patch105 -p1 -b .i18n
-%patch200 -p1 -b .multiple
-%patch300 -p1 -b .new_sections
+%patch1 -p0 -b .confpath~
+%patch4 -p1 -b .make~
+%patch5 -p1 -b .nonascii~
+%patch6 -p1 -b .security~
+%patch7 -p1 -b .mandirs~
+%patch8 -p1 -b .ad~
+%patch9 -p1 -b .sofix~
+%patch10 -p1 -b .less~
+%patch14 -p0 -b .newline~
+%patch51 -p0 -b .jp2~
+%patch17 -p1 -b .utf8~
+%patch19 -p1 -b .overflow~
+%patch22 -p1 -b .nocache~
+%patch25 -p1 -b .use_i18n_vars_in_a_std_way~
+%patch26 -p1 -b .color~
+%patch27 -p1 -b .sigpipe~
+%patch28 -p1 -b .xz~
+%patch102 -p1 -b .sigpipe~
+%patch104 -p0 -b .tv_fhs~
+%patch105 -p1 -b .i18n~
+%patch200 -p1 -b .multiple~
+%patch300 -p1 -b .new_sections~
 
 # fixing the encodings to utf-8
 for i in msgs/mess.* man/*/*.man
