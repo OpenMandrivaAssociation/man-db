@@ -12,8 +12,7 @@ Source2:	makewhatis.crondaily
 # Japanese patches
 Patch0:		man-1.5h1-gencat.patch
 Patch1:		man-1.5g-nonrootbuild.patch
-Patch2:		man-1.5m2-tv_fhs.patch
-Patch3:		man-1.5j-i18n.patch
+Patch2:		man-1.5j-i18n.patch
 
 Patch10:	man-1.5k-confpath.patch
 Patch11:	man-1.5h1-make.patch
@@ -64,8 +63,7 @@ primary way for find documentation on a Mandriva Linux system.
 %setup -q
 %patch0 -p0 -b .jp2~
 %patch1 -p1 -b .nonrootbuild~
-%patch2 -p0 -b .tv_fhs~
-%patch3 -p1 -b .i18n~
+%patch2 -p1 -b .i18n~
 
 %patch10 -p0 -b .confpath~
 %patch11 -p1 -b .make~
@@ -85,6 +83,7 @@ primary way for find documentation on a Mandriva Linux system.
 %patch25 -p1 -b .xz~
 %patch26 -p1 -b .multiple~
 %patch27 -p1 -b .new_sections~
+
 # fixing the encodings to utf-8
 for i in msgs/mess.* man/*/*.man
 do
@@ -116,15 +115,14 @@ cd ..
 %build
 ./configure -default -confdir %{_sysconfdir} +sgid +fhs +lang all 
 #	-compatibility_mode_for_colored_groff
-%make CC="gcc -g %{optflags} -D_GNU_SOURCE" MANDIR=%{_mandir} LDFLAGS="%{ldflags}"
+%make CC="gcc -g %{optflags} -D_GNU_SOURCE" LDFLAGS="%{ldflags}"
 # it seems for some reason make rpm is building with LC_ALL=C
 # which breaks gencat (as the input is utf-8); forcing a clean rebuild
 (cd msgs/ ; rm -f *.cat ; LC_ALL=en_US.UTF-8 make)
 
 %install
 rm -rf %{buildroot}
-perl -pi -e 's!mandir = .*$!mandir ='"%{_mandir}"'!g' man2html/Makefile
-make install PREFIX=%{buildroot} mandir=%{buildroot}%{_mandir}
+%makeinstall_std
 
 install -m755 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/cron.weekly/makewhatis.cron
 install -m755 %{SOURCE2} -D %{buildroot}%{_sysconfdir}/cron.daily/makewhatis.cron
