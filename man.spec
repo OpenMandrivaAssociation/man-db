@@ -115,7 +115,7 @@ cd ..
 %build
 ./configure -default -confdir %{_sysconfdir} +sgid +fhs +lang all 
 #	-compatibility_mode_for_colored_groff
-%make CC="gcc -g %{optflags} -D_GNU_SOURCE" LDFLAGS="%{ldflags}"
+%make CFLAGS="%{optflags}" LDFLAGS="%{ldflags}"
 # it seems for some reason make rpm is building with LC_ALL=C
 # which breaks gencat (as the input is utf-8); forcing a clean rebuild
 (cd msgs/ ; rm -f *.cat ; LC_ALL=en_US.UTF-8 make)
