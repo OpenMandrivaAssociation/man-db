@@ -1,7 +1,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man
 Version:	1.6f
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv2
 Group:		System/Base
 Url:		http://primates.ximian.com/~flucifredi/man/
@@ -43,6 +43,7 @@ Patch300:	man-1.6e-new_sections.patch
 
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	groff-for-man
+Requires:	xz
 BuildRequires:	xz
 
 %description
