@@ -76,7 +76,7 @@ primary way for find documentation on a Mandriva Linux system.
 %patch26 -p1 -b .color~
 %patch27 -p1 -b .sigpipe~
 %patch28 -p1 -b .xz~
-%patch102 -p1 -b .sigpipe~
+%patch102 -p1 -b .nonrootbuild~
 %patch104 -p0 -b .tv_fhs~
 %patch105 -p1 -b .i18n~
 %patch200 -p1 -b .multiple~
