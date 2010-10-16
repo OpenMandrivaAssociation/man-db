@@ -84,33 +84,18 @@ primary way for find documentation on a Mandriva Linux system.
 %patch26 -p1 -b .multiple~
 %patch27 -p1 -b .new_sections~
 
-# fixing the encodings to utf-8
-for i in msgs/mess.* man/*/*.man
-do
-	if iconv -f utf-8 -t utf-8 -o /dev/null $i 2> /dev/null ; then continue ; fi
-    lang=`echo $i | cut -d'/' -f2 | sed 's/mess.//'`
-    case $lang in
-    	bg) encoding=cp1251 ;;
-    	cs|hu|hr|pl|ro|sk|sl) encoding=iso-8859-2 ;;
-    	eo) encoding=iso-8859-3 ;;
-    	el) encoding=iso-8859-7 ;;
-    	ja) encoding=euc-jp ;;
-    	ko) encoding=euc-kr ;;
-    	ru) encoding=koi8-r ;;
-    	uk) encoding=koi8-u ;;
-    	*) encoding=iso-8859-1 ;;
-    esac
-    iconv -f $encoding -t utf-8 -o tmpfile $i && mv tmpfile $i
+for i in $(find man -name man.conf.man); do
+	mv $i ${i%man.conf.man}man.config.man
+done
+for i in $(find man -name man.conf.5); do
+	mv $i ${i%man.conf.5}man.config.5
 done
 
-cd man;
-    for i in `find -name man.conf.man`; do
-        sed -e 's/MAN\.CONF/MAN\.CONFIG/g' \
-            -e 's/man\.conf/man\.config/g' \
-            -i $i
-        mv $i `echo $i|sed -e 's/conf.man/config.man/g'`
-    done
-cd ..
+for src in msgs/mess.[a-z][a-z]; do
+	charset=$(sed 's/^.*codeset=//' ${src}.codeset)
+	iconv -t utf-8 -f ${charset} -o ${src}.utf ${src} && mv ${src}.utf ${src}
+	echo '$ codeset=utf-8' > ${src}.codeset
+done
 
 %build
 ./configure -default -confdir %{_sysconfdir} +sgid +fhs +lang all 
