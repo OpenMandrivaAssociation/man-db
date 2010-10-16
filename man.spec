@@ -27,6 +27,8 @@ Patch26:	man-1.5m2-no-color-for-printing.patch
 # (which may take some time) is finished.
 # the typical case is "man foo | head -1"
 Patch27:	man-1.5m2-sigpipe.patch
+# (bor) support for .xz compressed man pages
+Patch28:	man-1.6f-xz.patch
 
 # Japanese patches
 Patch51:	man-1.5h1-gencat.patch
@@ -72,6 +74,7 @@ primary way for find documentation on a Mandriva Linux system.
 %patch25 -p1 -b .use_i18n_vars_in_a_std_way
 %patch26 -p1 -b .color
 %patch27 -p1 -b .sigpipe
+%patch28 -p1 -b .xz
 %patch102 -p1
 %patch104 -p0 -b .tv_fhs
 %patch105 -p1 -b .i18n
