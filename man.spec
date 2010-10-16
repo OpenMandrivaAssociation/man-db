@@ -8,38 +8,41 @@ Url:		http://primates.ximian.com/~flucifredi/man/
 Source0:	http://primates.ximian.com/~flucifredi/man/%{name}-%{version}.tar.gz
 Source1:	makewhatis.cronweekly
 Source2:	makewhatis.crondaily
-Patch1:		man-1.5k-confpath.patch
-Patch4:		man-1.5h1-make.patch
-Patch5:		man-1.5k-nonascii.patch
-Patch6:		man-1.6e-security.patch
-Patch7:		man-1.6e-mandirs.patch
-Patch8:		man-1.5m2-bug11621.patch
-Patch9:		man-1.5k-sofix.patch
-Patch10:	man-1.5m2-buildroot.patch
-Patch14:	man-1.5i2-newline.patch
-Patch17:	man-1.5j-utf8.patch
-Patch19:	man-1.5i2-overflow.patch
-Patch22:	man-1.5j-nocache.patch
-Patch25:	man-1.6e-use_i18n_vars_in_a_std_way.patch
-Patch26:	man-1.5m2-no-color-for-printing.patch
+
+# Japanese patches
+Patch0:		man-1.5h1-gencat.patch
+Patch1:		man-1.5g-nonrootbuild.patch
+Patch2:		man-1.5m2-tv_fhs.patch
+Patch3:		man-1.5j-i18n.patch
+
+Patch10:	man-1.5k-confpath.patch
+Patch11:	man-1.5h1-make.patch
+Patch12:	man-1.5k-nonascii.patch
+Patch13:	man-1.6e-security.patch
+Patch14:	man-1.6e-mandirs.patch
+Patch15:	man-1.5m2-bug11621.patch
+Patch16:	man-1.5k-sofix.patch
+Patch17:	man-1.5m2-buildroot.patch
+Patch18:	man-1.5i2-newline.patch
+Patch19:	man-1.5j-utf8.patch
+Patch20:	man-1.5i2-overflow.patch
+Patch21:	man-1.5j-nocache.patch
+Patch22:	man-1.6e-use_i18n_vars_in_a_std_way.patch
+Patch23:	man-1.5m2-no-color-for-printing.patch
 # ignore SIGPIPE signals, so no error messages are displayed
 # when the pipe is broken before the formatting of the man page
 # (which may take some time) is finished.
 # the typical case is "man foo | head -1"
-Patch27:	man-1.5m2-sigpipe.patch
+Patch24:	man-1.5m2-sigpipe.patch
 # (bor) support for .xz compressed man pages
-Patch28:	man-1.6f-xz.patch
-
-# Japanese patches
-Patch51:	man-1.5h1-gencat.patch
-Patch102:	man-1.5g-nonrootbuild.patch
-Patch104:	man-1.5m2-tv_fhs.patch
-Patch105:	man-1.5j-i18n.patch
-
+Patch25:	man-1.6f-xz.patch
 # avoid adding a manpage already in the list
-Patch200:	man-1.5m2-multiple.patch
+Patch26:	man-1.5m2-multiple.patch
 # i18n fixes for whatis and makewhatis
-Patch300:	man-1.6e-new_sections.patch
+Patch27:	man-1.6e-new_sections.patch
+
+
+
 
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	groff-for-man
@@ -59,29 +62,29 @@ primary way for find documentation on a Mandriva Linux system.
 
 %prep
 %setup -q
-%patch1 -p0 -b .confpath~
-%patch4 -p1 -b .make~
-%patch5 -p1 -b .nonascii~
-%patch6 -p1 -b .security~
-%patch7 -p1 -b .mandirs~
-%patch8 -p1 -b .ad~
-%patch9 -p1 -b .sofix~
-%patch10 -p1 -b .less~
-%patch14 -p0 -b .newline~
-%patch51 -p0 -b .jp2~
-%patch17 -p1 -b .utf8~
-%patch19 -p1 -b .overflow~
-%patch22 -p1 -b .nocache~
-%patch25 -p1 -b .use_i18n_vars_in_a_std_way~
-%patch26 -p1 -b .color~
-%patch27 -p1 -b .sigpipe~
-%patch28 -p1 -b .xz~
-%patch102 -p1 -b .nonrootbuild~
-%patch104 -p0 -b .tv_fhs~
-%patch105 -p1 -b .i18n~
-%patch200 -p1 -b .multiple~
-%patch300 -p1 -b .new_sections~
+%patch0 -p0 -b .jp2~
+%patch1 -p1 -b .nonrootbuild~
+%patch2 -p0 -b .tv_fhs~
+%patch3 -p1 -b .i18n~
 
+%patch10 -p0 -b .confpath~
+%patch11 -p1 -b .make~
+%patch12 -p1 -b .nonascii~
+%patch13 -p1 -b .security~
+%patch14 -p1 -b .mandirs~
+%patch15 -p1 -b .ad~
+%patch16 -p1 -b .sofix~
+%patch17 -p1 -b .less~
+%patch18 -p0 -b .newline~
+%patch19 -p1 -b .utf8~
+%patch20 -p1 -b .overflow~
+%patch21 -p1 -b .nocache~
+%patch22 -p1 -b .use_i18n_vars_in_a_std_way~
+%patch23 -p1 -b .color~
+%patch24 -p1 -b .sigpipe~
+%patch25 -p1 -b .xz~
+%patch26 -p1 -b .multiple~
+%patch27 -p1 -b .new_sections~
 # fixing the encodings to utf-8
 for i in msgs/mess.* man/*/*.man
 do
