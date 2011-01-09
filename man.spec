@@ -1,7 +1,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man
-Version:	1.6f
-Release:	%mkrel 3
+Version:	1.6g
+Release:	%mkrel 1
 License:	GPLv2
 Group:		System/Base
 Url:		http://primates.ximian.com/~flucifredi/man/
@@ -33,8 +33,6 @@ Patch23:	man-1.5m2-no-color-for-printing.patch
 # (which may take some time) is finished.
 # the typical case is "man foo | head -1"
 Patch24:	man-1.5m2-sigpipe.patch
-# (bor) support for .xz compressed man pages
-Patch25:	man-1.6f-xz.patch
 # avoid adding a manpage already in the list
 Patch26:	man-1.5m2-multiple.patch
 # i18n fixes for whatis and makewhatis
@@ -80,7 +78,6 @@ primary way for find documentation on a Mandriva Linux system.
 %patch22 -p1 -b .use_i18n_vars_in_a_std_way~
 %patch23 -p1 -b .color~
 %patch24 -p1 -b .sigpipe~
-%patch25 -p1 -b .xz~
 %patch26 -p1 -b .multiple~
 %patch27 -p1 -b .new_sections~
 
