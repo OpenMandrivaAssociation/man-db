@@ -13,7 +13,7 @@ Source2:	man-db.sysconfig
 Patch0:		man-db-2.6.1-recompress-xz.patch
 Requires:	groff-for-man
 Requires:	xz
-BuildRequires:	xz, lzma-devel, gdbm-devel, pkgconfig(libpipeline)
+BuildRequires:	xz, lzma-devel, gdbm-devel, groff-for-man, pkgconfig(libpipeline)
 
 # We need to allow undefined symbols - libmandb relies on them
 %define _disable_ld_no_undefined 1
