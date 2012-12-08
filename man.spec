@@ -2,18 +2,23 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man
-Version:	2.6.1
+Version:	2.6.3
 Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
-Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-db-%{version}.tar.gz
+Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-db-%{version}.tar.xz
 Source1:	man-db.crondaily
 Source2:	man-db.sysconfig
-Patch0:		man-db-2.6.1-recompress-xz.patch
+Patch0:		man-db-2.6.3-recompress-xz.patch
 Requires:	groff-for-man
 Requires:	xz
-BuildRequires:	xz, lzma-devel, gdbm-devel, groff-for-man, groff, pkgconfig(libpipeline)
+BuildRequires:	xz
+BuildRequires:	lzma-devel
+BuildRequires:	gdbm-devel
+BuildRequires:	groff-for-man
+BuildRequires:	groff
+BuildRequires:	pkgconfig(libpipeline)
 
 # We need to allow undefined symbols - libmandb relies on them
 %define _disable_ld_no_undefined 1
@@ -30,7 +35,7 @@ The man package should be installed on your system because it is the
 primary way for find documentation on a Mandriva Linux system.
 
 %prep
-%setup -q -n %name-db-%version
+%setup -q -n %{name}-db-%{version}
 %patch0 -p1 -b .recompress~
 # Needed after patch0
 autoconf
@@ -40,36 +45,32 @@ autoconf
 	--enable-threads=posix
 
 %build
-%make CC="%__cc %optflags" V=1
+%make CC="%__cc %{optflags}" V=1
 chmod 0755 ./src/man
 
 %install
-%makeinstall_std prefix=%_prefix INSTALL='%__install -p'
+%makeinstall_std prefix=%{_prefix} INSTALL='%{__install} -p'
 
 # install cron script for man-db creation/update
-%__install -m755 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/cron.daily/man-db.cron
+install -m755 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/cron.daily/man-db.cron
 
 # move the documentation to relevant place
-mv $RPM_BUILD_ROOT%{_datadir}/doc/man-db/* ./
+mv %{buildroot}%{_datadir}/doc/man-db/* ./
 
 # remove zsoelim - part of groff package
-rm $RPM_BUILD_ROOT%{_bindir}/zsoelim
-rm $RPM_BUILD_ROOT%{_datadir}/man/man1/zsoelim.1
+rm %{buildroot}%{_bindir}/zsoelim
+rm %{buildroot}%{_datadir}/man/man1/zsoelim.1
 
 # install cache directory
-%__install -d -m 0755  $RPM_BUILD_ROOT%{cache}
+install -d -m 0755 %{buildroot}%{cache}
 
 # config for cron script
-%__install -D -p -m 0644 %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/man-db
+install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/man-db
 
 %find_lang %{name}-db
 %find_lang %{name}-db-gnulib
 
-%clean
-rm -rf %{buildroot}
-
 %files -f %{name}-db.lang,%{name}-db-gnulib.lang
-%defattr(-,root,root)
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
 %config(noreplace) %{_sysconfdir}/man_db.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/man-db
@@ -97,6 +98,7 @@ rm -rf %{buildroot}
 %{_mandir}/man8/accessdb.8*
 %{_mandir}/man8/catman.8*
 %{_mandir}/man8/mandb.8*
-%lang(es) %_mandir/es/*/*
-%lang(it) %_mandir/it/*/*
-%attr(0755,root,root)   %dir %{cache}
+%lang(es) %{_mandir}/es/*/*
+%lang(it) %{_mandir}/it/*/*
+%attr(0755,root,root) %dir %{cache}
+
