@@ -1,3 +1,5 @@
+# We need to allow undefined symbols - libmandb relies on them
+%define _disable_ld_no_undefined 1
 %global cache /var/cache/man
 
 Summary:	A set of documentation tools: man, apropos and whatis
@@ -11,17 +13,13 @@ Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-db-%{version}.
 Source1:	man-db.crondaily
 Source2:	man-db.sysconfig
 Patch0:		man-db-2.6.3-recompress-xz.patch
-Requires:	groff-for-man
-Requires:	xz
-BuildRequires:	xz
-BuildRequires:	lzma-devel
-BuildRequires:	gdbm-devel
-BuildRequires:	groff-for-man
 BuildRequires:	groff
+BuildRequires:	xz
+BuildRequires:	gdbm-devel
+BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
-
-# We need to allow undefined symbols - libmandb relies on them
-%define _disable_ld_no_undefined 1
+Requires:	groff-base
+Requires:	xz
 
 %description
 The man package includes three tools for finding information and/or
@@ -35,16 +33,17 @@ The man package should be installed on your system because it is the
 primary way for find documentation on a Mandriva Linux system.
 
 %prep
-%setup -q -n %{name}-db-%{version}
-%patch0 -p1 -b .recompress~
+%setup -qn %{name}-db-%{version}
+%apply_patches
 # Needed after patch0
 autoconf
+
+%build
 %configure \
 	--with-sections="1 1p 8 2 3 3p 4 5 6 7 9 0p n l p o 1x 2x 3x 4x 5x 6x 7x 8x" \
 	--disable-setuid \
 	--enable-threads=posix
 
-%build
 %make CC="%__cc %{optflags}" V=1
 chmod 0755 ./src/man
 
