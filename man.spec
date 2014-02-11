@@ -83,8 +83,8 @@ install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/man-db
 %{_bindir}/catman
 %{_bindir}/mandb
 %dir %{_libdir}/man-db
-%{_libdir}/man-db/globbing
-%{_libdir}/man-db/manconv
+%{_libexecdir}/man-db/globbing
+%{_libexecdir}/man-db/manconv
 %{_libdir}/man-db/*.so*
 # documentation and translation
 %{_mandir}/man1/apropos.1*
