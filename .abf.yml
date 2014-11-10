@@ -1,3 +1,4 @@
----
-sources:
+removed_sources:
   man-db-2.6.3.tar.xz: 9f549ac89f993303ac1203a165961885a53e7d14
+sources:
+  man-db-2.7.1.tar.xz: 6a4b08ccacb555120a2bce852329d93c9c78247e

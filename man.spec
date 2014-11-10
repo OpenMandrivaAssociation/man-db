@@ -4,8 +4,8 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man
-Version:	2.6.3
-Release:	11
+Version:	2.7.1
+Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -18,6 +18,8 @@ BuildRequires:	xz
 BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
+BuildRequires:	pkgconfig(systemd)
+Requires(post):	rpm-helper
 Requires:	groff-base
 Requires:	xz
 
@@ -44,7 +46,7 @@ autoconf
 	--disable-setuid \
 	--enable-threads=posix
 
-%make CC="%__cc %{optflags}" V=1
+%make CC="%{__cc} %{optflags}" V=1
 chmod 0755 ./src/man
 
 %install
@@ -65,14 +67,19 @@ install -d -m 0755 %{buildroot}%{cache}
 
 # config for cron script
 install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/man-db
+install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_prefix}/lib/tmpfiles.d/man-db.conf
 
 %find_lang %{name}-db
 %find_lang %{name}-db-gnulib
+
+%post
+%tmpfiles_create man-db.conf
 
 %files -f %{name}-db.lang,%{name}-db-gnulib.lang
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
 %config(noreplace) %{_sysconfdir}/man_db.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/man-db
+%config(noreplace)  %{buildroot}%{_prefix}/lib/tmpfiles.d/man-db.conf
 %{_sysconfdir}/cron.daily/man-db.cron
 %{_sbindir}/accessdb
 %{_bindir}/man
@@ -100,4 +107,3 @@ install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/man-db
 %lang(es) %{_mandir}/es/*/*
 %lang(it) %{_mandir}/it/*/*
 %attr(0755,root,root) %dir %{cache}
-
