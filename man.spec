@@ -5,7 +5,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man
 Version:	2.6.3
-Release:	6
+Release:	6.1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -39,7 +39,7 @@ primary way for find documentation on a Mandriva Linux system.
 autoconf
 
 %build
-%configure \
+%configure2_5x \
 	--with-sections="1 1p 8 2 3 3p 4 5 6 7 9 0p n l p o 1x 2x 3x 4x 5x 6x 7x 8x" \
 	--disable-setuid \
 	--enable-threads=posix
