@@ -61,7 +61,7 @@ install -m755 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/cron.daily/man-db.cron
 mv %{buildroot}%{_datadir}/doc/man-db/* ./
 
 # remove zsoelim - part of groff package
-rm %{buildroot}%{_libexecdir}/zsoelim
+rm %{buildroot}%{_libexecdir}/%{name}/zsoelim
 rm %{buildroot}%{_datadir}/man/man1/zsoelim.1*
 
 # install cache directory
