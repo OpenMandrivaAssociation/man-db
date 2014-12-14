@@ -81,7 +81,7 @@ install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_tmpfilesdir}/man-d
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
 %config(noreplace) %{_sysconfdir}/man_db.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/man-db
-%config(noreplace)  %{buildroot}%{_tmpfilesdir}/man-db.conf
+%config(noreplace) %{_tmpfilesdir}/man-db.conf
 %{_sysconfdir}/cron.daily/man-db.cron
 %{_sbindir}/accessdb
 %{_bindir}/man
