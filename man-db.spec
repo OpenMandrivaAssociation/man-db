@@ -3,13 +3,13 @@
 %global cache /var/cache/man
 
 Summary:	A set of documentation tools: man, apropos and whatis
-Name:		man
+Name:		man-db
 Version:	2.7.1
 Release:	2
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
-Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-db-%{version}.tar.xz
+Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-%{version}.tar.xz
 Source1:	man-db.crondaily
 Source2:	man-db.sysconfig
 Patch0:		man-db-2.6.3-recompress-xz.patch
@@ -22,6 +22,7 @@ BuildRequires:	pkgconfig(systemd)
 Requires(post):	rpm-helper
 Requires:	groff-base
 Requires:	xz
+%rename	man
 
 %description
 The man package includes three tools for finding information and/or
@@ -35,7 +36,8 @@ The man package should be installed on your system because it is the
 primary way for find documentation on a Mandriva Linux system.
 
 %prep
-%setup -qn %{name}-db-%{version}
+%setup -q
+
 %apply_patches
 # Needed after patch0
 autoconf
@@ -67,15 +69,15 @@ install -d -m 0755 %{buildroot}%{cache}
 
 # config for cron script
 install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/man-db
-install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_prefix}/lib/tmpfiles.d/man-db.conf
-    
-%find_lang %{name}-db
-%find_lang %{name}-db-gnulib
+install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_tmpfilesdir}/man-db.conf
+
+%find_lang %{name}
+%find_lang %{name}-gnulib
 
 %post
 %tmpfiles_create man-db.conf
 
-%files -f %{name}-db.lang,%{name}-db-gnulib.lang
+%files -f %{name}.lang,%{name}-gnulib.lang
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
 %config(noreplace) %{_sysconfdir}/man_db.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/man-db
