@@ -58,13 +58,17 @@ install -m755 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/cron.daily/man-db.cron
 # move the documentation to relevant place
 mv %{buildroot}%{_datadir}/doc/man-db/* ./
 
+# remove zsoelim - part of groff package
+rm %{buildroot}%{_libexecdir}/zsoelim
+rm %{buildroot}%{_datadir}/man/man1/zsoelim.1*
+
 # install cache directory
 install -d -m 0755 %{buildroot}%{cache}
 
 # config for cron script
 install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/man-db
 install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_prefix}/lib/tmpfiles.d/man-db.conf
-
+    
 %find_lang %{name}-db
 %find_lang %{name}-db-gnulib
 
@@ -75,7 +79,7 @@ install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_prefix}/lib/tmpfil
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
 %config(noreplace) %{_sysconfdir}/man_db.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/man-db
-%config(noreplace)  %{buildroot}%{_prefix}/lib/tmpfiles.d/man-db.conf
+%config(noreplace)  %{buildroot}%{_tmpfilesdir}/man-db.conf
 %{_sysconfdir}/cron.daily/man-db.cron
 %{_sbindir}/accessdb
 %{_bindir}/man
