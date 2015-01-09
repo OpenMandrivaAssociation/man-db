@@ -89,9 +89,7 @@ systemctl -q disable man-db.timer 2> /dev/null || :
 %files -f %{name}.lang,%{name}-gnulib.lang
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
 %config(noreplace) %{_sysconfdir}/man_db.conf
-%config(noreplace) %{_sysconfdir}/sysconfig/man-db
 %config(noreplace) %{_tmpfilesdir}/man-db.conf
-%{_sysconfdir}/cron.daily/man-db.cron
 %{_sbindir}/accessdb
 %{_bindir}/man
 %{_bindir}/whatis
