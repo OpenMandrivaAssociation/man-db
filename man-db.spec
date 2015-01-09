@@ -5,13 +5,13 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.7.1
-Release:	2
+Release:	3
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
 Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-%{version}.tar.xz
-Source1:	man-db.crondaily
-Source2:	man-db.sysconfig
+Source1:	man-db.timer
+Source2:	man-db.service
 Patch0:		man-db-2.6.3-recompress-xz.patch
 BuildRequires:	groff
 BuildRequires:	xz
@@ -22,6 +22,7 @@ BuildRequires:	pkgconfig(systemd)
 Requires(post):	rpm-helper
 Requires:	groff-base
 Requires:	xz
+Requires:	rpm-helper
 %rename	man
 
 %description
@@ -54,9 +55,6 @@ chmod 0755 ./src/man
 %install
 %makeinstall_std prefix=%{_prefix} INSTALL='%{__install} -p'
 
-# install cron script for man-db creation/update
-install -m755 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/cron.daily/man-db.cron
-
 # move the documentation to relevant place
 mv %{buildroot}%{_datadir}/doc/man-db/* ./
 
@@ -70,15 +68,23 @@ install -d -m 0755 %{buildroot}%{cache}
 # fix tmpfile conf
 sed -i -e "s/man root/root man/g" init/systemd/man-db.conf
 
-# config for cron script
-install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/man-db
+install -D -m644 %{SOURCE1} %{buildroot}%{_unitdir}/man-db.timer
+install -D -m644 %{SOURCE2} %{buildroot}%{_unitdir}/man-db.service
 install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_tmpfilesdir}/man-db.conf
 
 %find_lang %{name}
 %find_lang %{name}-gnulib
 
+%pre
+systemctl stop man-db.timer 2> /dev/null || :
+systemctl -q disable man-db.timer 2> /dev/null || :
+
 %post
 %tmpfiles_create man-db.conf
+%systemd_post man-db.service man-db.timer
+
+%postun
+%systemd_postun man-db.service man-db.timer
 
 %files -f %{name}.lang,%{name}-gnulib.lang
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
