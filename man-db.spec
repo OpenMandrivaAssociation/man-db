@@ -67,6 +67,9 @@ rm %{buildroot}%{_datadir}/man/man1/zsoelim.1*
 # install cache directory
 install -d -m 0755 %{buildroot}%{cache}
 
+# fix tmpfile conf
+sed -i -e "s/man root/root man/g" init/systemd/man-db.conf
+
 # config for cron script
 install -D -p -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/man-db
 install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_tmpfilesdir}/man-db.conf
