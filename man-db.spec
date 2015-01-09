@@ -104,6 +104,8 @@ systemctl -q disable man-db.timer 2> /dev/null || :
 %{_libexecdir}/man-db/globbing
 %{_libexecdir}/man-db/manconv
 %{_libdir}/man-db/*.so*
+%{_unitdir}/man-db.timer
+%{_unitdir}/man-db.service
 # documentation and translation
 %{_mandir}/man1/apropos.1*
 %{_mandir}/man1/lexgrog.1*
