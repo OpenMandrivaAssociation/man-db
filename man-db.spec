@@ -22,7 +22,7 @@ BuildRequires:	pkgconfig(systemd)
 Requires(post):	rpm-helper
 Requires:	groff-base
 Requires:	xz
-Requires:	rpm-helper
+Requires(pre,post,postun):	rpm-helper
 %rename	man
 
 %description
