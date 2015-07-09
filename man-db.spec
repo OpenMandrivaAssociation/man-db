@@ -5,7 +5,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.7.1
-Release:	3
+Release:	4
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -19,10 +19,9 @@ BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
-Requires(post):	rpm-helper
+Requires:	systemd
 Requires:	groff-base
 Requires:	xz
-Requires(pre,post,postun):	rpm-helper
 %rename	man
 
 %description
@@ -72,24 +71,20 @@ install -D -m644 %{SOURCE1} %{buildroot}%{_unitdir}/man-db.timer
 install -D -m644 %{SOURCE2} %{buildroot}%{_unitdir}/man-db.service
 install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_tmpfilesdir}/man-db.conf
 
+install -d %{buildroot}%{_presetdir}
+cat > %{buildroot}%{_presetdir}/86-man-db.preset << EOF
+enable man-db.timer
+enable man-db.service
+EOF
+
 %find_lang %{name}
 %find_lang %{name}-gnulib
-
-%pre
-systemctl stop man-db.timer 2> /dev/null || :
-systemctl -q disable man-db.timer 2> /dev/null || :
-
-%post
-%tmpfiles_create man-db.conf
-%systemd_post man-db.service man-db.timer
-
-%postun
-%systemd_postun man-db.service man-db.timer
 
 %files -f %{name}.lang,%{name}-gnulib.lang
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
 %config(noreplace) %{_sysconfdir}/man_db.conf
 %config(noreplace) %{_tmpfilesdir}/man-db.conf
+%{_presetdir}/86-man-db.preset
 %{_sbindir}/accessdb
 %{_bindir}/man
 %{_bindir}/whatis
