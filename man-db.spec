@@ -4,8 +4,8 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.7.1
-Release:	5
+Version:	2.7.2
+Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
