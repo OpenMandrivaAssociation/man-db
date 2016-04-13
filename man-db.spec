@@ -4,8 +4,8 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.7.2
-Release:	3
+Version:	2.7.5
+Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -19,9 +19,13 @@ BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
+# The configure script checks for the best available pager at build time,
+# let's prevent it from picking "more"
+BuildRequires:	less
 Requires:	systemd
 Requires:	groff-base
 Requires:	xz
+Requires:	less
 %rename	man
 
 %description
