@@ -5,7 +5,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.7.5
-Release:	1
+Release:	2
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -50,7 +50,8 @@ autoconf
 %configure \
 	--with-sections="1 1p 8 2 3 3p 4 5 6 7 9 0p n l p o 1x 2x 3x 4x 5x 6x 7x 8x" \
 	--disable-setuid \
-	--enable-threads=posix
+	--enable-threads=posix \
+	--with-pager="less -X"
 
 %make CC="%{__cc} %{optflags}" V=1
 chmod 0755 ./src/man
