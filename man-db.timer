@@ -3,7 +3,7 @@ Description=Daily man-db cache update
 
 [Timer]
 OnCalendar=daily
-AccuracySec=12h
+AccuracySec=1d
 Persistent=true
 
 [Install]

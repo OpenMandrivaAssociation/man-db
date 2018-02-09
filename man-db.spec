@@ -4,7 +4,7 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.7.6.1
+Version:	2.8.1
 Release:	1
 License:	GPLv2
 Group:		System/Base
@@ -79,7 +79,6 @@ install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_tmpfilesdir}/man-d
 install -d %{buildroot}%{_presetdir}
 cat > %{buildroot}%{_presetdir}/86-man-db.preset << EOF
 enable man-db.timer
-enable man-db.service
 EOF
 
 %find_lang %{name}

@@ -6,6 +6,7 @@ RequiresMountsFor=/var/cache/man
 Type=oneshot
 ExecStart=/usr/bin/mkdir -m 0755 -p /var/cache/man
 ExecStart=/usr/bin/mandb --quiet
+CPUSchedulingPolicy=batch
 Nice=19
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7
