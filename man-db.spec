@@ -14,11 +14,13 @@ Source1:	man-db.timer
 Source2:	man-db.service
 Patch0:		man-db-2.6.3-recompress-xz.patch
 BuildRequires:	groff
+BuildRequires:	flex
 BuildRequires:	xz
 BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
+BuildRequires:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
 # let's prevent it from picking "more"
 BuildRequires:	less
