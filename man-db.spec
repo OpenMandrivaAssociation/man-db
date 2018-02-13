@@ -20,7 +20,10 @@ BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
-BuildRequires:	pkgconfig(libseccomp)
+# FIXME re-enable when fixed upstream, see
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=889608
+# BuildRequires:	pkgconfig(libseccomp)
+BuildConflicts:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
 # let's prevent it from picking "more"
 BuildRequires:	less
