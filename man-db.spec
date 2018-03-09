@@ -4,8 +4,8 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.8.1
-Release:	3
+Version:	2.8.2
+Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -20,10 +20,7 @@ BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
-# FIXME re-enable when fixed upstream, see
-# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=889608
-# BuildRequires:	pkgconfig(libseccomp)
-BuildConflicts:	pkgconfig(libseccomp)
+BuildRequires:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
 # let's prevent it from picking "more"
 BuildRequires:	less
