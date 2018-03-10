@@ -93,7 +93,7 @@ EOF
 %postun
 %_postun_userdel man
 
-%files -f %{name}.lang, %{name}-gnulib.lang
+%files -f %{name}.lang,%{name}-gnulib.lang
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
 %config(noreplace) %{_sysconfdir}/man_db.conf
 %config(noreplace) %{_tmpfilesdir}/man-db.conf
