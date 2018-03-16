@@ -54,7 +54,9 @@ autoconf
 	--disable-setuid \
 	--enable-threads=posix \
 	--with-pager="less -X" \
-	--enable-cache-owner="root"
+	--enable-cache-owner="root" \
+	--without-libseccomp
+
 
 %make CC="%{__cc} %{optflags}" V=1
 chmod 0755 ./src/man
