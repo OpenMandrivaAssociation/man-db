@@ -4,7 +4,7 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.8.2
+Version:	2.8.3
 Release:	1
 License:	GPLv2
 Group:		System/Base
@@ -44,7 +44,7 @@ primary way for find documentation on a Mandriva Linux system.
 %prep
 %setup -q
 
-%apply_patches
+%utopatch -p1
 # Needed after patch0
 autoconf
 
@@ -56,11 +56,11 @@ autoconf
 	--with-pager="less -X" \
 	--enable-cache-owner="root"
 
-%make CC="%{__cc} %{optflags}" V=1
+%make_build CC="%{__cc} %{optflags}" V=1
 chmod 0755 ./src/man
 
 %install
-%makeinstall_std prefix=%{_prefix} INSTALL='%{__install} -p'
+%make_install prefix=%{_prefix} INSTALL='%{__install} -p'
 
 # move the documentation to relevant place
 mv %{buildroot}%{_datadir}/doc/man-db/* ./
