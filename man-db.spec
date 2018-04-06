@@ -42,9 +42,7 @@ The man package should be installed on your system because it is the
 primary way for find documentation on a Mandriva Linux system.
 
 %prep
-%setup -q
-
-%utopatch -p1
+%autosetup -p1
 # Needed after patch0
 autoconf
 
