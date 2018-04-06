@@ -5,7 +5,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.8.3
-Release:	1
+Release:	2
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -20,7 +20,8 @@ BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
-BuildRequires:	pkgconfig(libseccomp)
+# (tpg) with libseccomp it segfaults
+#BuildRequires:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
 # let's prevent it from picking "more"
 BuildRequires:	less
@@ -54,7 +55,8 @@ autoconf
 	--disable-setuid \
 	--enable-threads=posix \
 	--with-pager="less -X" \
-	--enable-cache-owner="root"
+	--enable-cache-owner="root" \
+	--without-libseccomp
 
 %make CC="%{__cc} %{optflags}" V=1
 chmod 0755 ./src/man
