@@ -4,8 +4,8 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.8.2
-Release:	2
+Version:	2.8.3
+Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -54,9 +54,7 @@ autoconf
 	--disable-setuid \
 	--enable-threads=posix \
 	--with-pager="less -X" \
-	--enable-cache-owner="root" \
-	--without-libseccomp
-
+	--enable-cache-owner="root"
 
 %make CC="%{__cc} %{optflags}" V=1
 chmod 0755 ./src/man
