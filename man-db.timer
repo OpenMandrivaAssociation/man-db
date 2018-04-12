@@ -5,6 +5,7 @@ Description=Daily man-db cache update
 OnCalendar=daily
 AccuracySec=1d
 Persistent=true
+OnBootSec=5min
 
 [Install]
 WantedBy=timers.target
