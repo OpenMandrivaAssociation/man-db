@@ -20,6 +20,8 @@ BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
+# For macros.systemd (_tmpfilesdir, _presetdir, _unitdir)
+BuildRequires:	systemd
 # itchka Using libseccomp causes segfaults
 # BuildRequires:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
