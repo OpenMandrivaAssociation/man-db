@@ -1,9 +1,10 @@
 [Unit]
 Description=Update man-db cache
 RequiresMountsFor=/var/cache/man
+JobTimeoutSec=15min
 
 [Service]
-Type=oneshot
+Type=idle
 ExecStart=/bin/mkdir -m 0755 -p /var/cache/man
 ExecStart=/usr/bin/mandb --quiet
 CPUSchedulingPolicy=batch
