@@ -5,7 +5,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.8.3
-Release:	4
+Release:	5
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -20,6 +20,8 @@ BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
+# For macros.systemd (_tmpfilesdir, _presetdir, _unitdir)
+BuildRequires:	systemd
 # (tpg) with libseccomp it segfaults
 #BuildRequires:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
@@ -29,6 +31,9 @@ Requires:	systemd
 Requires:	groff-base
 Requires:	xz
 Requires:	less
+# For user addition/removal
+BuildRequires:		rpm-helper
+Requires(pre,postun):	rpm-helper
 %rename	man
 
 %description
@@ -79,6 +84,17 @@ sed -i -e "s/man root/root man/g" init/systemd/man-db.conf
 
 install -D -m644 %{SOURCE1} %{buildroot}%{_unitdir}/man-db.timer
 install -D -m644 %{SOURCE2} %{buildroot}%{_unitdir}/man-db.service
+cat >%{buildroot}%{_sbindir}/update-man-cache <<'EOF'
+#!/bin/sh
+# Just in case /var/cache is tmpfs or similar
+if ! [ -d %{cache} ]; then
+    mkdir -p -m 0755 %{cache}
+    chown man:man %{cache}
+fi
+exec %{_bindir}/mandb --quiet
+EOF
+chmod 0755 %{buildroot}%{_sbindir}/update-man-cache
+
 install -D -p -m 0644 init/systemd/man-db.conf %{buildroot}%{_tmpfilesdir}/man-db.conf
 
 install -d %{buildroot}%{_presetdir}
@@ -108,6 +124,7 @@ EOF
 %{_bindir}/lexgrog
 %{_bindir}/catman
 %{_bindir}/mandb
+%{_sbindir}/update-man-cache
 %dir %{_libdir}/man-db
 %{_libexecdir}/man-db/globbing
 %{_libexecdir}/man-db/manconv

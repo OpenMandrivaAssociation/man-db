@@ -5,8 +5,7 @@ JobTimeoutSec=15min
 
 [Service]
 Type=idle
-ExecStart=/bin/mkdir -m 0755 -p /var/cache/man
-ExecStart=/usr/bin/mandb --quiet
+ExecStart=/usr/sbin/update-man-cache
 CPUSchedulingPolicy=batch
 Nice=19
 IOSchedulingClass=best-effort
