@@ -1,11 +1,12 @@
 # We need to allow undefined symbols - libmandb relies on them
 %define _disable_ld_no_undefined 1
 %global cache /var/cache/man
+%global optflags %{optflags} --rtlib=compiler-rt
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.8.3
-Release:	7
+Version:	2.8.4
+Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -13,6 +14,7 @@ Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-%{version}.tar
 Source1:	man-db.timer
 Source2:	man-db.service
 Patch0:		man-db-2.6.3-recompress-xz.patch
+Patch1:		man-db-2.8.4-clang.patch
 BuildRequires:	groff
 BuildRequires:	flex
 BuildRequires:	xz
@@ -139,6 +141,5 @@ EOF
 %{_mandir}/man8/accessdb.8*
 %{_mandir}/man8/catman.8*
 %{_mandir}/man8/mandb.8*
-%lang(es) %{_mandir}/es/*/*
 %lang(it) %{_mandir}/it/*/*
 %attr(0755,man,man) %dir %{cache}
