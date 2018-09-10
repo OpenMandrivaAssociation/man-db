@@ -17,7 +17,7 @@ Patch0:		man-db-2.6.3-recompress-xz.patch
 Patch1:		man-db-2.8.4-clang.patch
 Patch2:		man-db-2.8.3-change-owner-of-man-cache.patch
 # http://lists.nongnu.org/archive/html/man-db-devel/2017-01/msg00013.html
-Patch1:		man-db-2.7.6.1-fix-override-dir-handling.patch
+Patch3:		man-db-2.7.6.1-fix-override-dir-handling.patch
 
 BuildRequires:	groff
 BuildRequires:	flex
