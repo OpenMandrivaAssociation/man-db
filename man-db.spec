@@ -6,7 +6,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.8.4
-Release:	1
+Release:	2
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -15,6 +15,10 @@ Source1:	man-db.timer
 Source2:	man-db.service
 Patch0:		man-db-2.6.3-recompress-xz.patch
 Patch1:		man-db-2.8.4-clang.patch
+Patch2:		man-db-2.8.3-change-owner-of-man-cache.patch
+# http://lists.nongnu.org/archive/html/man-db-devel/2017-01/msg00013.html
+Patch1:		man-db-2.7.6.1-fix-override-dir-handling.patch
+
 BuildRequires:	groff
 BuildRequires:	flex
 BuildRequires:	xz
@@ -23,7 +27,7 @@ BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
 # For macros.systemd (_tmpfilesdir, _presetdir, _unitdir)
-BuildRequires:	systemd
+BuildRequires:	systemd-macros
 # itchka Using libseccomp causes segfaults
 # BuildRequires:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
@@ -60,7 +64,9 @@ autoconf
 	--disable-setuid \
 	--enable-threads=posix \
 	--with-pager="less -X" \
-	--enable-cache-owner="root" \
+	--disable-cache-owner \
+	--with-lzip=lzip \
+	--with-override-dir=overrides \
 	--without-libseccomp
 
 %make_build CC="%{__cc} %{optflags}" V=1
