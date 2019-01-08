@@ -26,6 +26,7 @@ BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
+BuildRequires:	pkgconfig(zlib)
 # For macros.systemd (_tmpfilesdir, _presetdir, _unitdir)
 BuildRequires:	systemd-macros
 # itchka Using libseccomp causes segfaults
