@@ -6,7 +6,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.8.5
-Release:	1
+Release:	2
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -29,8 +29,7 @@ BuildRequires:	pkgconfig(systemd)
 BuildRequires:	pkgconfig(zlib)
 # For macros.systemd (_tmpfilesdir, _presetdir, _unitdir)
 BuildRequires:	systemd-macros
-# itchka Using libseccomp causes segfaults
-# BuildRequires:	pkgconfig(libseccomp)
+BuildRequires:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
 # let's prevent it from picking "more"
 BuildRequires:	less
@@ -68,7 +67,7 @@ autoconf
 	--disable-cache-owner \
 	--with-lzip=lzip \
 	--with-override-dir=overrides \
-	--without-libseccomp
+	--with-libseccomp
 
 %make_build CC="%{__cc} %{optflags}" V=1
 chmod 0755 ./src/man
