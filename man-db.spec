@@ -1,7 +1,9 @@
 # We need to allow undefined symbols - libmandb relies on them
 %define _disable_ld_no_undefined 1
 %global cache /var/cache/man
+%ifnarch %{riscv}
 %global optflags %{optflags} --rtlib=compiler-rt
+%endif
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
