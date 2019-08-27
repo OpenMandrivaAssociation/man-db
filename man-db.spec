@@ -7,7 +7,7 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.8.6.1
+Version:	2.8.7
 Release:	1
 License:	GPLv2
 Group:		System/Base
@@ -147,5 +147,20 @@ EOF
 %{_mandir}/man8/accessdb.8*
 %{_mandir}/man8/catman.8*
 %{_mandir}/man8/mandb.8*
+%lang(da) %{_mandir}/da/*/*
+%lang(de) %{_mandir}/de/*/*
+%lang(es) %{_mandir}/es/*/*
+%lang(fr) %{_mandir}/fr/*/*
+%lang(id) %{_mandir}/id/*/*
 %lang(it) %{_mandir}/it/*/*
+%lang(ja) %{_mandir}/ja/*/*
+%lang(nl) %{_mandir}/nl/*/*
+%lang(pl) %{_mandir}/pl/*/*
+%lang(pt) %{_mandir}/pt/*/*
+%lang(pt_BR) %{_mandir}/pt_BR/*/*
+%lang(ru) %{_mandir}/ru/*/*
+%lang(sr) %{_mandir}/sr/*/*
+%lang(sv) %{_mandir}/sv/*/*
+%lang(tr) %{_mandir}/tr/*/*
+%lang(zh_CN) %{_mandir}/zh_CN/*/*
 %attr(0755,man,man) %dir %{cache}
