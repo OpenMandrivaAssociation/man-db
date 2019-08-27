@@ -24,6 +24,7 @@ BuildRequires:	flex
 BuildRequires:	xz
 BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
+BuildRequires:	po4a
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(systemd)
 BuildRequires:	pkgconfig(zlib)
