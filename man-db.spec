@@ -7,7 +7,7 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.8.7
+Version:	2.9.0
 Release:	1
 License:	GPLv2
 Group:		System/Base
@@ -128,6 +128,7 @@ EOF
 %{_bindir}/apropos
 %{_bindir}/manpath
 %{_bindir}/lexgrog
+%{_bindir}/man-recode
 %{_bindir}/catman
 %{_bindir}/mandb
 %{_sbindir}/update-man-cache
@@ -141,6 +142,7 @@ EOF
 %{_mandir}/man1/apropos.1*
 %{_mandir}/man1/lexgrog.1*
 %{_mandir}/man1/man.1*
+%{_mandir}/man1/man-recode.1*
 %{_mandir}/man1/manconv.1*
 %{_mandir}/man1/manpath.1*
 %{_mandir}/man1/whatis.1*
