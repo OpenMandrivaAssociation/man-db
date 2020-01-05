@@ -8,7 +8,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.9.0
-Release:	1
+Release:	2
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -18,10 +18,12 @@ Source2:	man-db.service
 Patch0:		man-db-2.6.3-recompress-xz.patch
 Patch1:		man-db-2.8.4-clang.patch
 Patch2:		man-db-2.8.3-change-owner-of-man-cache.patch
+Patch3:		man-db-2.9.0-zstd-compression.patch
 
 BuildRequires:	groff
 BuildRequires:	flex
 BuildRequires:	xz
+BuildRequires:	zstd
 BuildRequires:	gdbm-devel
 BuildRequires:	lzma-devel
 BuildRequires:	po4a
@@ -36,8 +38,9 @@ BuildRequires:	pkgconfig(libseccomp)
 BuildRequires:	less
 Requires:	systemd
 Requires:	groff-base
-Requires:	xz
 Requires:	less
+Suggests:	xz
+Suggests:	zstd
 # For user addition/removal
 BuildRequires:		rpm-helper
 Requires(pre,postun):	rpm-helper
@@ -56,7 +59,7 @@ primary way for find documentation on a Mandriva Linux system.
 
 %prep
 %autosetup -p1
-# Needed after patch0
+# Needed after patches 0 and 3
 autoconf
 
 %build
