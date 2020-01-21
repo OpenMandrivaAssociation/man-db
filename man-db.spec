@@ -8,7 +8,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.9.0
-Release:	2
+Release:	3
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -60,6 +60,7 @@ primary way for find documentation on a Mandriva Linux system.
 %prep
 %autosetup -p1
 # Needed after patches 0 and 3
+autoheader
 autoconf
 
 %build
