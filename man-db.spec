@@ -8,13 +8,14 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.9.1
-Release:	1
+Release:	2
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
 Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-%{version}.tar.xz
 Source1:	man-db.timer
 Source2:	man-db.service
+Source3:	man-db.sysusers
 Patch0:		man-db-2.6.3-recompress-xz.patch
 Patch1:		man-db-2.8.4-clang.patch
 Patch2:		man-db-2.8.3-change-owner-of-man-cache.patch
@@ -95,6 +96,8 @@ sed -i -e "s/man root/root man/g" init/systemd/man-db.conf
 
 install -D -m644 %{SOURCE1} %{buildroot}%{_unitdir}/man-db.timer
 install -D -m644 %{SOURCE2} %{buildroot}%{_unitdir}/man-db.service
+install -Dpm 644 %{SOURCE3} %{buildroot}%{_sysusersdir}/%{name}.conf
+
 cat >%{buildroot}%{_sbindir}/update-man-cache <<'EOF'
 #!/bin/sh
 # Just in case /var/cache is tmpfs or similar
@@ -125,6 +128,7 @@ EOF
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
 %config(noreplace) %{_sysconfdir}/man_db.conf
 %config(noreplace) %{_tmpfilesdir}/man-db.conf
+%{_sysusersdir}/%{name}.conf
 %{_presetdir}/86-man-db.preset
 %{_sbindir}/accessdb
 %{_bindir}/man
