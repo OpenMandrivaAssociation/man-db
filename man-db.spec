@@ -7,8 +7,8 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.9.1
-Release:	3
+Version:	2.9.2
+Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -19,7 +19,6 @@ Source3:	man-db.sysusers
 Patch0:		man-db-2.6.3-recompress-xz.patch
 Patch1:		man-db-2.8.4-clang.patch
 Patch2:		man-db-2.8.3-change-owner-of-man-cache.patch
-Patch3:		man-db-2.9.0-zstd-compression.patch
 
 BuildRequires:	groff
 BuildRequires:	flex
