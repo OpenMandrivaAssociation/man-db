@@ -8,7 +8,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.9.3
-Release:	1
+Release:	2
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -116,6 +116,12 @@ EOF
 
 %find_lang %{name}
 %find_lang %{name}-gnulib
+
+%post
+%systemd_post %{name}.timer
+
+%preun
+%systemd_preun %{name}.timer
 
 %files -f %{name}.lang -f %{name}-gnulib.lang
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
