@@ -7,8 +7,8 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.9.3
-Release:	2
+Version:	2.9.4
+Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -114,8 +114,7 @@ cat > %{buildroot}%{_presetdir}/86-man-db.preset << EOF
 enable man-db.timer
 EOF
 
-%find_lang %{name}
-%find_lang %{name}-gnulib
+%find_lang %{name} --with-man --all-name
 
 %post
 %systemd_post %{name}.timer
@@ -123,7 +122,7 @@ EOF
 %preun
 %systemd_preun %{name}.timer
 
-%files -f %{name}.lang -f %{name}-gnulib.lang
+%files -f %{name}.lang
 %doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
 %config(noreplace) %{_sysconfdir}/man_db.conf
 %config(noreplace) %{_tmpfilesdir}/man-db.conf
@@ -157,20 +156,4 @@ EOF
 %{_mandir}/man8/accessdb.8*
 %{_mandir}/man8/catman.8*
 %{_mandir}/man8/mandb.8*
-%lang(da) %{_mandir}/da/*/*
-%lang(de) %{_mandir}/de/*/*
-%lang(es) %{_mandir}/es/*/*
-%lang(fr) %{_mandir}/fr/*/*
-%lang(id) %{_mandir}/id/*/*
-%lang(it) %{_mandir}/it/*/*
-%lang(ja) %{_mandir}/ja/*/*
-%lang(nl) %{_mandir}/nl/*/*
-%lang(pl) %{_mandir}/pl/*/*
-%lang(pt) %{_mandir}/pt/*/*
-%lang(pt_BR) %{_mandir}/pt_BR/*/*
-%lang(ru) %{_mandir}/ru/*/*
-%lang(sr) %{_mandir}/sr/*/*
-%lang(sv) %{_mandir}/sv/*/*
-%lang(tr) %{_mandir}/tr/*/*
-%lang(zh_CN) %{_mandir}/zh_CN/*/*
 %attr(0755,man,man) %dir %{cache}
