@@ -8,7 +8,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.9.4
-Release:	1
+Release:	2
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -16,19 +16,15 @@ Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-%{version}.tar
 Source1:	man-db.timer
 Source2:	man-db.service
 Source3:	man-db.sysusers
-Patch0:		man-db-2.6.3-recompress-xz.patch
 Patch1:		man-db-2.8.4-clang.patch
 Patch2:		man-db-2.8.3-change-owner-of-man-cache.patch
-
 BuildRequires:	groff
 BuildRequires:	flex
 BuildRequires:	xz
 BuildRequires:	zstd
 BuildRequires:	gdbm-devel
-BuildRequires:	lzma-devel
 BuildRequires:	po4a
 BuildRequires:	pkgconfig(libpipeline)
-BuildRequires:	pkgconfig(systemd)
 BuildRequires:	pkgconfig(zlib)
 # For macros.systemd (_tmpfilesdir, _presetdir, _unitdir)
 BuildRequires:	systemd-macros
@@ -39,11 +35,8 @@ BuildRequires:	less
 Requires:	systemd
 Requires:	groff-base
 Requires:	less
-Suggests:	xz
-Suggests:	zstd
-# For user addition/removal
-BuildRequires:		rpm-helper
-Requires(pre,postun):	rpm-helper
+Recommends:	zstd
+%systemd_requires
 %rename	man
 
 %description
@@ -66,6 +59,7 @@ autoconf
 %build
 %configure \
 	--with-sections="1 1p 8 2 3 3p 4 5 6 7 9 0p n l p o 1x 2x 3x 4x 5x 6x 7x 8x" \
+	--with-compress=zstd \
 	--disable-setuid \
 	--enable-threads=posix \
 	--with-pager="less -X" \
