@@ -8,7 +8,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.9.4
-Release:	4
+Release:	5
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -115,7 +115,7 @@ EOF
 
 %pre
 getent group man >/dev/null || groupadd -r man
-getent passwd man >/dev/null || useradd -r -g man -d / -s /sbin/nologin -c "User for man" man
+getent passwd man >/dev/null || useradd -r -g man -d %{cache} -s /sbin/nologin -c "User for man" man
 exit 0
 
 %post
