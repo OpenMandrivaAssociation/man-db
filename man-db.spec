@@ -8,7 +8,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.9.4
-Release:	5
+Release:	6
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -32,12 +32,9 @@ BuildRequires:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
 # let's prevent it from picking "more"
 BuildRequires:	less
-Requires:	systemd
+Requires(pre):	systemd
 Requires:	groff-base
 Requires:	less
-Requires(pre):	glibc
-Requires(pre):	shadow
-Requires(pre):	passwd
 Recommends:	zstd
 %systemd_requires
 %rename	man
@@ -98,8 +95,8 @@ cat >%{buildroot}%{_sbindir}/update-man-cache <<'EOF'
 #!/bin/sh
 # Just in case /var/cache is tmpfs or similar
 if ! [ -d %{cache} ]; then
-	mkdir -p -m 0755 %{cache}
-	chown man:man %{cache}
+    mkdir -p -m 0755 %{cache}
+    chown man:man %{cache}
 fi
 exec %{_bindir}/mandb --quiet
 EOF
@@ -114,9 +111,7 @@ EOF
 %find_lang %{name} --with-man --all-name
 
 %pre
-getent group man >/dev/null || groupadd -r man
-getent passwd man >/dev/null || useradd -r -g man -d %{cache} -s /sbin/nologin -c "User for man" man
-exit 0
+%sysusers_create_package man-db.conf %{SOURCE3}
 
 %post
 %systemd_post %{name}.timer
