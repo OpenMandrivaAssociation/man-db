@@ -1,0 +1,80 @@
+diff -up man-db-2.10.0/config.h.in.1~ man-db-2.10.0/config.h.in
+diff -up man-db-2.10.0/gl/lib/cdefs.h.1~ man-db-2.10.0/gl/lib/cdefs.h
+--- man-db-2.10.0/gl/lib/cdefs.h.1~	2022-02-04 15:51:30.000000000 +0100
++++ man-db-2.10.0/gl/lib/cdefs.h	2022-02-05 20:52:32.545451918 +0100
+@@ -683,7 +683,7 @@ _Static_assert (0, "IEEE 128-bits long d
+ #  define __attr_access_none(argno)
+ #endif
+ 
+-#if __GNUC_PREREQ (11, 0)
++#if __GNUC_PREREQ (11, 0) && !defined(__clang__)
+ /* Designates dealloc as a function to call to deallocate objects
+    allocated by the declared function.  */
+ # define __attr_dealloc(dealloc, argno) \
+diff -up man-db-2.10.0/gl/lib/stdio.in.h.1~ man-db-2.10.0/gl/lib/stdio.in.h
+--- man-db-2.10.0/gl/lib/stdio.in.h.1~	2022-02-04 15:51:31.000000000 +0100
++++ man-db-2.10.0/gl/lib/stdio.in.h	2022-02-05 20:52:32.546451924 +0100
+@@ -95,7 +95,7 @@
+    that can be freed by passing them as the Ith argument to the
+    function F.  */
+ #ifndef _GL_ATTRIBUTE_DEALLOC
+-# if __GNUC__ >= 11
++# if __GNUC__ >= 11 && !defined(__clang__)
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ # else
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i)
+diff -up man-db-2.10.0/src/man.c.1~ man-db-2.10.0/src/man.c
+--- man-db-2.10.0/src/man.c.1~	2022-02-04 15:50:17.000000000 +0100
++++ man-db-2.10.0/src/man.c	2022-02-05 20:52:32.546451924 +0100
+@@ -383,6 +383,7 @@ static error_t parse_opt (int key, char
+ 
+ 		case OPT_WARNINGS:
+ #ifdef NROFF_WARNINGS
++			{
+ 			char *s = xstrdup (arg ? arg : default_roff_warnings);
+ 			const char *warning;
+ 
+@@ -392,6 +393,7 @@ static error_t parse_opt (int key, char
+ 						  xstrdup (warning));
+ 
+ 			free (s);
++			}
+ #endif /* NROFF_WARNINGS */
+ 			return 0;
+ 
+diff -up man-db-2.10.0/config.h.in.omv~ man-db-2.10.0/config.h.in
+--- man-db-2.10.0/config.h.in.omv~	2022-02-05 21:00:23.093151416 +0100
++++ man-db-2.10.0/config.h.in	2022-02-05 21:00:29.954190666 +0100
+@@ -2280,7 +2280,7 @@
+    _GL_ATTRIBUTE_DEALLOC_FREE declares that the function returns pointers that
+    can be freed via 'free'; it can be used only after declaring 'free'.  */
+ /* Applies to: functions.  Cannot be used on inline functions.  */
+-#if _GL_GNUC_PREREQ (11, 0)
++#if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
+ # define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ #else
+ # define _GL_ATTRIBUTE_DEALLOC(f, i)
+diff -up man-db-2.10.0/gl/lib/stdlib.in.h.omv~ man-db-2.10.0/gl/lib/stdlib.in.h
+--- man-db-2.10.0/gl/lib/stdlib.in.h.omv~	2022-02-05 20:59:05.179705530 +0100
++++ man-db-2.10.0/gl/lib/stdlib.in.h	2022-02-05 20:59:12.065744951 +0100
+@@ -103,7 +103,7 @@ struct random_data
+    that can be freed by passing them as the Ith argument to the
+    function F.  */
+ #ifndef _GL_ATTRIBUTE_DEALLOC
+-# if __GNUC__ >= 11
++# if __GNUC__ >= 11 && !defined(__clang__)
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ # else
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i)
+diff -up man-db-2.10.0/gl/m4/gnulib-common.m4.omv~ man-db-2.10.0/gl/m4/gnulib-common.m4
+--- man-db-2.10.0/gl/m4/gnulib-common.m4.omv~	2022-02-05 21:05:27.385890344 +0100
++++ man-db-2.10.0/gl/m4/gnulib-common.m4	2022-02-05 21:05:41.048968351 +0100
+@@ -176,7 +176,7 @@ AC_DEFUN([gl_COMMON_BODY], [
+    _GL_ATTRIBUTE_DEALLOC_FREE declares that the function returns pointers that
+    can be freed via 'free'; it can be used only after declaring 'free'.  */
+ /* Applies to: functions.  Cannot be used on inline functions.  */
+-#if _GL_GNUC_PREREQ (11, 0)
++#if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
+ # define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ #else
+ # define _GL_ATTRIBUTE_DEALLOC(f, i)

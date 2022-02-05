@@ -7,8 +7,8 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.9.4
-Release:	6
+Version:	2.10.0
+Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -16,7 +16,7 @@ Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-%{version}.tar
 Source1:	man-db.timer
 Source2:	man-db.service
 Source3:	man-db.sysusers
-Patch1:		man-db-2.8.4-clang.patch
+Patch1:		man-db-2.10.0-clang.patch
 Patch2:		man-db-2.8.3-change-owner-of-man-cache.patch
 BuildRequires:	groff
 BuildRequires:	flex
@@ -120,7 +120,7 @@ EOF
 %systemd_preun %{name}.timer
 
 %files -f %{name}.lang
-%doc README man-db-manual.txt man-db-manual.ps docs/COPYING ChangeLog NEWS
+%doc man-db-manual.txt man-db-manual.ps ChangeLog
 %config(noreplace) %{_sysconfdir}/man_db.conf
 %config(noreplace) %{_tmpfilesdir}/man-db.conf
 %{_sysusersdir}/%{name}.conf
