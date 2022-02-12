@@ -23,25 +23,6 @@ diff -up man-db-2.10.0/gl/lib/stdio.in.h.1~ man-db-2.10.0/gl/lib/stdio.in.h
  #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
  # else
  #  define _GL_ATTRIBUTE_DEALLOC(f, i)
-diff -up man-db-2.10.0/src/man.c.1~ man-db-2.10.0/src/man.c
---- man-db-2.10.0/src/man.c.1~	2022-02-04 15:50:17.000000000 +0100
-+++ man-db-2.10.0/src/man.c	2022-02-05 20:52:32.546451924 +0100
-@@ -383,6 +383,7 @@ static error_t parse_opt (int key, char
- 
- 		case OPT_WARNINGS:
- #ifdef NROFF_WARNINGS
-+			{
- 			char *s = xstrdup (arg ? arg : default_roff_warnings);
- 			const char *warning;
- 
-@@ -392,6 +393,7 @@ static error_t parse_opt (int key, char
- 						  xstrdup (warning));
- 
- 			free (s);
-+			}
- #endif /* NROFF_WARNINGS */
- 			return 0;
- 
 diff -up man-db-2.10.0/config.h.in.omv~ man-db-2.10.0/config.h.in
 --- man-db-2.10.0/config.h.in.omv~	2022-02-05 21:00:23.093151416 +0100
 +++ man-db-2.10.0/config.h.in	2022-02-05 21:00:29.954190666 +0100

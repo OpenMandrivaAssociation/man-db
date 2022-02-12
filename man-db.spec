@@ -7,7 +7,7 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.10.0
+Version:	2.10.1
 Release:	1
 License:	GPLv2
 Group:		System/Base
