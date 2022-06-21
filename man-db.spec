@@ -27,7 +27,7 @@ BuildRequires:	po4a
 BuildRequires:	pkgconfig(libpipeline)
 BuildRequires:	pkgconfig(zlib)
 # For macros.systemd (_tmpfilesdir, _presetdir, _unitdir)
-BuildRequires:	systemd-macros
+BuildRequires:	systemd-rpm-macros
 BuildRequires:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
 # let's prevent it from picking "more"
@@ -66,6 +66,8 @@ autoconf
 	--disable-cache-owner \
 	--with-lzip=lzip \
 	--with-override-dir=overrides \
+	--with-systemdsystemunitdir=%{_unitdir} \
+	--with-systemdtmpfilesdir=%{_tmpfilesdir} \
 	--with-libseccomp
 
 %make_build CC="%{__cc} %{optflags}" V=1
@@ -142,15 +144,15 @@ EOF
 %{_unitdir}/man-db.timer
 %{_unitdir}/man-db.service
 # documentation and translation
-%{_mandir}/man1/apropos.1*
-%{_mandir}/man1/lexgrog.1*
-%{_mandir}/man1/man.1*
-%{_mandir}/man1/man-recode.1*
-%{_mandir}/man1/manconv.1*
-%{_mandir}/man1/manpath.1*
-%{_mandir}/man1/whatis.1*
-%{_mandir}/man5/manpath.5*
-%{_mandir}/man8/accessdb.8*
-%{_mandir}/man8/catman.8*
-%{_mandir}/man8/mandb.8*
+%doc %{_mandir}/man1/apropos.1*
+%doc %{_mandir}/man1/lexgrog.1*
+%doc %{_mandir}/man1/man.1*
+%doc %{_mandir}/man1/man-recode.1*
+%doc %{_mandir}/man1/manconv.1*
+%doc %{_mandir}/man1/manpath.1*
+%doc %{_mandir}/man1/whatis.1*
+%doc %{_mandir}/man5/manpath.5*
+%doc %{_mandir}/man8/accessdb.8*
+%doc %{_mandir}/man8/catman.8*
+%doc %{_mandir}/man8/mandb.8*
 %attr(0755,man,man) %dir %{cache}
