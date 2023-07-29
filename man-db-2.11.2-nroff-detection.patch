@@ -1,0 +1,12 @@
+diff -up man-db-2.11.2/configure.ac.omv~ man-db-2.11.2/configure.ac
+--- man-db-2.11.2/configure.ac.omv~	2023-07-29 15:36:18.043536127 +0200
++++ man-db-2.11.2/configure.ac	2023-07-29 15:36:45.733778020 +0200
+@@ -175,6 +175,8 @@ dnl		nroff="$nroff ${man_cv_prog_nroff_m
+ 	else
+ 		AC_MSG_RESULT([ambiguous])
+ 		AC_MSG_WARN([please edit config.h and add nroff definition])
++		dnl but in the mean time, let's just assume sanity...
++		nroff="$nroff -mandoc"
+ 	fi
+ else
+ 	AC_MSG_WARN([Cannot find an nroff-like program, formatting of manual page source will not be supported.])

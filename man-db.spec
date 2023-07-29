@@ -8,7 +8,7 @@
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
 Version:	2.11.2
-Release:	1
+Release:	2
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
@@ -18,6 +18,13 @@ Source2:	man-db.service
 Source3:	man-db.sysusers
 Patch1:		man-db-2.10.0-clang.patch
 Patch2:		man-db-2.8.3-change-owner-of-man-cache.patch
+# FIXME as of groff 1.23.0, the configure check for "nroff -tmandoc" fails
+# with
+# grotty:<standard input>:(<standard input>):6: fatal error: 'V' command invalid before first 'p' command
+# causing the configure script to not realize the andoc macro package exists.
+# The long term fix is fixing grotty. For now, let's just tell man what
+# the result of the check *should* be...
+Patch3:		man-db-2.11.2-nroff-detection.patch
 BuildRequires:	groff
 BuildRequires:	flex
 BuildRequires:	xz
