@@ -1,3 +1,5 @@
+# build system breakage
+%undefine _debugsource_packages
 # We need to allow undefined symbols - libmandb relies on them
 %define _disable_ld_no_undefined 1
 %global cache /var/cache/man
@@ -7,8 +9,8 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.11.2
-Release:	2
+Version:	2.12.0
+Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		http://www.nongnu.org/man-db/
