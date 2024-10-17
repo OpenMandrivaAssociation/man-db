@@ -13,7 +13,7 @@ Version:	2.13.0
 Release:	1
 License:	GPLv2
 Group:		System/Base
-Url:		http://www.nongnu.org/man-db/
+Url:		https://www.nongnu.org/man-db/
 Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-%{version}.tar.xz
 Source1:	man-db.timer
 Source2:	man-db.service
