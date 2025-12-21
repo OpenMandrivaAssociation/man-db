@@ -27,6 +27,11 @@ Patch2:		man-db-2.8.3-change-owner-of-man-cache.patch
 # The long term fix is fixing grotty. For now, let's just tell man what
 # the result of the check *should* be...
 Patch3:		man-db-2.11.2-nroff-detection.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	groff
 BuildRequires:	flex
 BuildRequires:	xz
