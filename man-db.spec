@@ -6,6 +6,8 @@
 %ifnarch %{riscv}
 %global optflags %{optflags} --rtlib=compiler-rt
 %endif
+# clang 23 still defaults to C17. gnulib in 2.13.2 uses C23 bool and static_assert.
+%global optflags %{optflags} -std=gnu23
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
