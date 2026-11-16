@@ -9,12 +9,12 @@
 
 Summary:	A set of documentation tools: man, apropos and whatis
 Name:		man-db
-Version:	2.13.1
+Version:	2.13.2
 Release:	1
 License:	GPLv2
 Group:		System/Base
 Url:		https://www.nongnu.org/man-db/
-Source0:	http://download.savannah.gnu.org/releases/man-db/%{name}-%{version}.tar.xz
+Source0:	https://download.savannah.nongnu.org/releases/man-db/%{name}-%{version}.tar.xz
 Source1:	man-db.timer
 Source2:	man-db.service
 Source3:	man-db.sysusers
@@ -29,7 +29,6 @@ Patch2:		man-db-2.8.3-change-owner-of-man-cache.patch
 Patch3:		man-db-2.11.2-nroff-detection.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool-base
 BuildRequires:	slibtool
 BuildRequires:	make
 BuildRequires:	groff
@@ -46,7 +45,6 @@ BuildRequires:	pkgconfig(libseccomp)
 # The configure script checks for the best available pager at build time,
 # let's prevent it from picking "more"
 BuildRequires:	less
-Requires(pre):	systemd
 Requires:	groff-base
 Requires:	less
 Recommends:	zstd
@@ -125,15 +123,6 @@ enable man-db.timer
 EOF
 
 %find_lang %{name} --with-man --all-name
-
-%pre
-%sysusers_create_package man-db.conf %{SOURCE3}
-
-%post
-%systemd_post %{name}.timer
-
-%preun
-%systemd_preun %{name}.timer
 
 %files -f %{name}.lang
 %doc man-db-manual.txt man-db-manual.ps ChangeLog
